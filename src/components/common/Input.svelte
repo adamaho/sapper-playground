@@ -22,7 +22,7 @@
     width: 100%;
   }
 
-  :global(button) {
-    width: 100%;
+  input::placeholder {
+    color: black;
   }
 </style>
