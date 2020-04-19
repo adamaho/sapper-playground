@@ -1,0 +1,33 @@
+html {
+	height: 100%;
+}
+
+
+body {
+	margin: 0;
+	background: var(--background); 
+	font-family: 'Rubik', sans-serif;
+
+	height: 100%;
+	width: 100%;
+}
+
+#sapper {
+	height: 100%;
+	width: 100%;
+}
+
+h1, p {
+	color: white;
+	margin: 0;
+	padding: 0
+}
+
+
+p {
+	font-weight: 300;
+}
+
+:root {
+	--background: #1B1B1B;
+}
