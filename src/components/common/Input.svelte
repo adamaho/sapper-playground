@@ -1,8 +1,9 @@
 <script>
   export let placeholder;
+  export let value;
 </script>
 
-<input on:change {placeholder} />
+<input bind:value {placeholder} />
 
 <style>
   input {

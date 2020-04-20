@@ -1,7 +1,8 @@
 <script>
+  export let disabled = false;
 </script>
 
-<button on:click>
+<button on:click {disabled}>
   <slot></slot>
 </button>
 
@@ -19,6 +20,11 @@
     color: black;
 
     padding: 8px 8px;
+  }
+
+  button:disabled {
+    opacity: 0.5;
+    pointer-events: none;
   }
 
   button:active,

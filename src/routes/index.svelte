@@ -1,3 +1,7 @@
+<svelte:head>
+	<title>Tallii</title>
+</svelte:head>
+
 <script>
 	import { goto } from '@sapper/app';
 	import Button from '../components/common/Button.svelte';
@@ -8,9 +12,6 @@
 	}
 </script>
 
-<svelte:head>
-	<title>Tallii</title>
-</svelte:head>
 
 <Wizard title="Tallii" description="Keep score.">
 	<Button on:click={() => handleNavigation('/login')}>Login</Button>
@@ -19,7 +20,7 @@
 			<span>or</span>
 			<hr />
 		</div>
-	<Button on:click={() => handleNavigation('/key')}>Get Started</Button>
+	<Button on:click={() => handleNavigation('/signup')}>Get Started</Button>
 </Wizard>
 
 <style>

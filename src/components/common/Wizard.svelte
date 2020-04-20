@@ -1,9 +1,10 @@
 <script>
+  import { fade, fly } from 'svelte/transition';
   export let title;
   export let description;
 </script>
 
-<main>
+<main in:fly="{{ x: 200, duration: 500, delay: 100 }}" out:fly="{{ x: -200, duration: 500 }}">
 	<div class="wizard-container">
 		<div class="wizard-title-container">
 			<h1>{title}</h1>
