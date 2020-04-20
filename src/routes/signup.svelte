@@ -6,16 +6,9 @@
   import Wizard from '../components/common/Wizard.svelte';
 
   import Key from '../components/signup/Key.svelte';
+  import Signup from '../components/signup/Signup.svelte';
 
   let currentIndex = 0;
-
-  function handleNext() {
-    currentIndex += 1;
-  }
-
-  function handleBack() {
-    currentIndex -= 1;
-  }
 
 </script>
 
@@ -24,23 +17,12 @@
 </svelte:head>
 
 {#if currentIndex === 0}
-  <Key />
+  <Key bind:currentIndex />
 {/if}
 
 {#if currentIndex === 1}
-  <Wizard title="Sign up" description="What's your email and password?">
-    <div class="signup">
-      <Input placeholder="Email" />
-      <Input placeholder="Password" />
-      <Button>Sign up</Button>
-    </div>
-  </Wizard>
+  <Signup bind:currentIndex />
 {/if}
-
-<p>{currentIndex}</p>
-
-<Button on:click={handleNext}>next</Button>
-<Button on:click={handleBack}>back</Button>
 
 <style>
 </style>

@@ -12,6 +12,8 @@
   let key = '';
   let keyError = false;
 
+  export let currentIndex;
+
   async function handleNext() {
     if (key !== '') {
       console.log(key);
@@ -19,7 +21,7 @@
         const response = await post('keys', { key });
 
         if (response.ok) {
-          await goto('/signup');
+          currentIndex += 1;
         } else {
           keyError = true
         }
