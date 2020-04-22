@@ -1,6 +1,5 @@
-<script type="module">
+<script>
   import { goto } from '@sapper/app';
-  import { fade, fly } from 'svelte/transition';
 
   import { post } from '../../utils/post';
 
@@ -16,7 +15,6 @@
 
   async function handleNext() {
     if (key !== '') {
-      console.log(key);
       try {
         const response = await post('keys', { key });
 
@@ -44,6 +42,5 @@
 <style>
   .key :global(button) {
     width: 100%;
-    margin-top: 16px;
   }
 </style>

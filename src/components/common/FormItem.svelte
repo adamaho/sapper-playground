@@ -14,6 +14,10 @@
 </div>
 
 <style>
+  .form-item {
+    margin-bottom: 16px;
+  }
+
   p {
     background: rgba(255, 175, 0, 0.1);
     margin-top: 4px;

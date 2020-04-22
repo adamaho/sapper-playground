@@ -14,6 +14,7 @@
     border-radius: 6px;
     outline: 0;
 
+    font-family: inherit;
     font-size: 15px;
     font-weight: 300;
     color: black;

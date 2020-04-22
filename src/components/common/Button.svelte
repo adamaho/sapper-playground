@@ -8,18 +8,24 @@
 
 <style>
   button {
-    display: block;
     background: white;
-
     border: none;
     border-radius: 6px;
-    outline: 0;
 
+    color: black;
+    cursor: pointer;
+  
+    display: block;
+
+    font-family: inherit;
     font-size: 15px;
     font-weight: 700;
-    color: black;
+
+    outline: 0;
 
     padding: 8px 8px;
+
+    transition: opacity 0.15s ease-in-out;
   }
 
   button:disabled {

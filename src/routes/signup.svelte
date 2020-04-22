@@ -1,10 +1,6 @@
 <script>
   import { goto } from '@sapper/app';
 
-  import Button from '../components/common/Button.svelte';
-  import Input from '../components/common/Input.svelte';
-  import Wizard from '../components/common/Wizard.svelte';
-
   import Key from '../components/signup/Key.svelte';
   import Signup from '../components/signup/Signup.svelte';
 
