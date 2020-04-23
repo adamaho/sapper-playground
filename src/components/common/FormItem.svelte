@@ -4,6 +4,8 @@
   export let error = false;
   export let errorMessage;
 
+  console.log(foo);
+
 </script>
 
 <div class="form-item" class:error>
