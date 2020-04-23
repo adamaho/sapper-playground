@@ -1,8 +1,9 @@
 <script>
   export let disabled = false;
+  export let type;
 </script>
 
-<button on:click {disabled}>
+<button on:click {disabled} {type}>
   <slot></slot>
 </button>
 

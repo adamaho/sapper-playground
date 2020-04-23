@@ -5,7 +5,7 @@
 	export let description;
 </script>
 
-<main in:fade="{{ duration: 400, delay: 300 }}" out:fly="{{ x: -200, duration: 400 }}">
+<main in:fade="{{ duration: 200, delay: 100 }}" out:fade="{{ duration: 200 }}">
 	<div class="wizard-container">
 		<div class="wizard-title-container">
 			<h1>{title}</h1>

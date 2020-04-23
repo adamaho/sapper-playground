@@ -4,11 +4,12 @@
   import { post } from '../../utils/post';
 
   import Button from '../common/Button.svelte';
+  import Form from '../common/Form.svelte';
   import FormItem from '../common/FormItem.svelte';
   import Input from '../common/Input.svelte';
   import Wizard from '../common/Wizard.svelte';
 
-  // export let currentIndex;
+  export let currentIndex;
 
   let emailError = false;
   let email = ''
@@ -30,6 +31,7 @@
       password
     };
 
+    // validate the form
     try {
       await loginForm.validate(formValues);
     } catch (error) {
@@ -46,32 +48,36 @@
       return;
     }
 
-    console.log('asdfasdfasdf');
-
+    // post the sign up
     try {
-      await post('signup', {formValues, key_id: '9374f913-328c-4690-b4d3-19eadfe3e91a'});
+      await post('signup', {...formValues, key_id: 'a804e66f-4d83-4ef7-add3-1d74fd8d9145'});
+      currentIndex += 1;
     } catch (error) {
-      console.log(error);
       saveError = true;
     }
+  }
 
-    // console.log(foo);
-    // currentIndex += 1;
+
+  function handleSubmit({ detail }) {
+    console.log(detail);
   }
 </script>
 
 
 <Wizard title="Sign up" description="What's your email and password?">
   <div class="signup">
-    <FormItem error={emailError} errorMessage="The provided email is invalid">
-      <Input placeholder="Email" bind:value={email}/>
-    </FormItem>
-    <FormItem error={passwordError} errorMessage="Your password should be at least 8 characters long.">
-      <Input placeholder="Password" bind:value={password} />
-    </FormItem>
-    <FormItem error={saveError} errorMessage="Oops, something went wrong">
-      <Button on:click={handleNext}>Sign up</Button>
-    </FormItem>
+    <Form on:submit={handleSubmit}>
+      <FormItem error={emailError} errorMessage="The provided email is invalid">
+        <Input name="email" placeholder="Email" />
+      </FormItem>
+      <FormItem error={passwordError} errorMessage="Your password should be at least 8 characters long.">
+        <Input name="password" placeholder="Password" />
+      </FormItem>
+      <FormItem error={saveError} errorMessage="Oops, something went wrong">
+        <Button type="submit">Sign up</Button>
+        <Button type="reset">reset</Button>
+      </FormItem>
+    </Form>
   </div>
 </Wizard>
 
