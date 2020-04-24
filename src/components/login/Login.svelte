@@ -9,14 +9,6 @@
   import Input from '../common/Input.svelte';
   import Wizard from '../common/Wizard.svelte';
 
-  let emailError = false;
-  let email = ''
-
-  let password = '';
-  let passwordError = false;
-
-  let saveError = false;
-
   const schema = yup.object().shape({
     email: yup
       .string()
@@ -47,12 +39,8 @@
 <Wizard title="Welcome Back" description="Enter your email and password to login.">
   <div class="signup">
     <Form {schema} on:submit={handleNext}>
-      <FormItem name="email">
-        <Input placeholder="Email" name="email" />
-      </FormItem>
-      <FormItem name="password">
-        <Input placeholder="Password" name="password" />
-      </FormItem>
+      <Input placeholder="Email" name="email" /> 
+      <Input placeholder="Password" name="password" />
       <Button type="submit">Login</Button>
     </Form>
   </div>

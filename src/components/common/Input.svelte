@@ -1,10 +1,13 @@
 <script>
+  import FormItem from './FormItem.svelte';
   export let name;
   export let placeholder;
   export let value = '';
 </script>
 
-<input bind:value {placeholder} {name} />
+<FormItem {name}>
+  <input bind:value {placeholder} {name} />
+</FormItem>
 
 <style>
   input {

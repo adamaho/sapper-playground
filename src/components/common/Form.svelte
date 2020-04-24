@@ -4,7 +4,6 @@
   import { createEventDispatcher, setContext } from 'svelte';
   import { writable } from 'svelte/store';
 
-
   const errors = writable({});
 
   setContext('form', { errors });
@@ -13,6 +12,8 @@
 
   function deserializeForm(elements) {
     let values = {};
+
+    console.log(elements);
 
     [...elements].forEach(({name, type, value}) => {
       if (type !== 'submit' && type !== 'reset') {
