@@ -18,8 +18,13 @@
   let saveError = false;
 
   const schema = yup.object().shape({
-    email: yup.string().email("Are you sure that is your email?").required(),
-    password: yup.string().min(8, "Try to make it at least 8 characters long.").required("We need a password to keep you secure.")
+    email: yup
+      .string()
+      .email("Are you sure that is your email?")
+      .required("We need your email so we know who you are."),
+    password: yup
+      .string()
+      .required("We need a password to keep you secure.")
   });
 
   async function handleNext(values) {
@@ -42,15 +47,13 @@
 <Wizard title="Welcome Back" description="Enter your email and password to login.">
   <div class="signup">
     <Form {schema} on:submit={handleNext}>
-      <FormItem error={emailError} errorMessage="The provided email is invalid">
+      <FormItem name="email">
         <Input placeholder="Email" name="email" />
       </FormItem>
-      <FormItem error={passwordError} errorMessage="Your password should be at least 8 characters long.">
+      <FormItem name="password">
         <Input placeholder="Password" name="password" />
       </FormItem>
-      <FormItem error={saveError} errorMessage="Hmm... we couldn't find you. Did you mean to sign up?">
-        <Button type="submit">Login</Button>
-      </FormItem>
+      <Button type="submit">Login</Button>
     </Form>
   </div>
 </Wizard>

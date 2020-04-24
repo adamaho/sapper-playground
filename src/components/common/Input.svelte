@@ -1,7 +1,7 @@
 <script>
   export let name;
   export let placeholder;
-  export let value;
+  export let value = '';
 </script>
 
 <input bind:value {placeholder} {name} />

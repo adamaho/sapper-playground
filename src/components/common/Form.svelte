@@ -1,7 +1,13 @@
 <script>
   export let schema;
 
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher, setContext } from 'svelte';
+  import { writable } from 'svelte/store';
+
+
+  const errors = writable({});
+
+  setContext('form', { errors });
 
   const dispatch = createEventDispatcher();
 
@@ -21,19 +27,21 @@
     e.preventDefault();
 
     const values = deserializeForm(e.target.elements);
-    const errors = {};
+    const validationErrors = {};
 
     try {
       await schema.validate(values, { abortEarly: false });
     } catch (error) {      
       error.inner.forEach((e) => {
-        if (errors[e.path] == null) {
-          errors[e.path] = [...e.errors];
+        if (validationErrors[e.path] == null) {
+          validationErrors[e.path] = [...e.errors];
         } else {
-          errors[e.path] = [...errors[e.path], ...e.errors];
+          validationErrors[e.path] = [...validationErrors[e.path], ...e.errors];
         }
       });
     }
+
+    $errors = validationErrors;
 
     dispatch('submit', { values , errors });
   }
