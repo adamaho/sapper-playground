@@ -21,19 +21,16 @@
       .required("We need a password to keep you secure.")
   });
 
-  async function handleNext(values) {
-    // validate form
+  async function handleNext({ detail }) {
+    try {
+      const response = await post('login', detail);
+      const jwt = await response.json();
 
-    console.log(values.detail);
-
-    // try {
-    //   const response = await post('login', formValues);
-    //   const jwt = await response.json();
-
-    //   console.log(jwt);
-    // } catch (error) {
-    //   saveError = true;
-    // }
+      // do something with the jwt here
+      console.log(jwt);
+    } catch (error) {
+      saveError = true;
+    }
   }
 </script>
 
