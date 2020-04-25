@@ -7,7 +7,7 @@
   const errors = writable({});
   const values = writable({});
   const touchedFields = writable({});
-  const submitted = writable({});
+  const submitted = writable(false);
 
   setContext('form', {
     errors,
@@ -23,7 +23,7 @@
       await schema.validate($values, { abortEarly: false });
     } catch (error) {
       error.inner.forEach((e) => {
-        if ($touchedFields[e.path] || $submitted) {
+        if ($touchedFields[e.path]) {
           if (validationErrors[e.path] == null) {
             validationErrors[e.path] = [...e.errors];
           } else {
@@ -44,7 +44,9 @@
       [name]: value
     }
 
-    await validate();
+    if ($submitted) {
+      await validate();
+    }
   }
 
   async function handleSubmit(e) {

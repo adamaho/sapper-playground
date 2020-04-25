@@ -1,82 +1,53 @@
 <script>
   import * as yup from 'yup';
-
+  import { goto } from '@sapper/app';
   import { post } from '../../utils/post';
 
-  import Button from '../common/Button.svelte';
-  import Form from '../common/Form.svelte';
-  import FormItem from '../common/FormItem.svelte';
-  import Input from '../common/Input.svelte';
-  import Wizard from '../common/Wizard.svelte';
+  export let key;
 
-  export let currentIndex;
+  import {
+    Button,
+    Form,
+    FormInput,
+    Wizard
+  } from '../common';
 
-  let emailError = false;
-  let email = ''
-
-  let password = '';
-  let passwordError = false;
-
-  let saveError = false;
-
-  const loginForm = yup.object().shape({
-    email: yup.string().email("The provided email is invalid").required(),
-    password: yup.string().min(8, "Password must be 8 characters or longer.").required()
+  const schema = yup.object().shape({
+    email: yup
+      .string()
+      .email("Are you sure that is your email?")
+      .required("We need your email so we know who you are."),
+    password: yup
+      .string()
+      .min(8, "Try to make your password at least 8 characters long.")
+      .required("We need a password to keep you secure.")
   });
 
-  async function handleNext() {
-    // validate form
-    const formValues = {
-      email,
-      password
-    };
-
-    // validate the form
+  async function signup({ detail }) {
     try {
-      await loginForm.validate(formValues);
-    } catch (error) {
-      switch (error.path) {
-        case 'email': {
-          emailError = true;
-          break;
-        }
-        case 'password': {
-          passwordError = true;
-          break;
-        }
-      }
-      return;
-    }
+      console.log(key);
+      const response = await post('signup', { ...detail, key_id: key });
+      const jwt = await response.json();
 
-    // post the sign up
-    try {
-      await post('signup', {...formValues, key_id: 'a804e66f-4d83-4ef7-add3-1d74fd8d9145'});
-      currentIndex += 1;
+      // do something with the jwt here
+      console.log(jwt);
+
+      // proceed to main app
+      goto('/app');
     } catch (error) {
       saveError = true;
     }
   }
-
-
-  function handleSubmit({ detail }) {
-    console.log(detail);
-  }
 </script>
+
 
 
 <Wizard title="Sign up" description="What's your email and password?">
   <div class="signup">
-    <Form on:submit={handleSubmit}>
-      <FormItem error={emailError} errorMessage="The provided email is invalid">
-        <Input name="email" placeholder="Email" />
-      </FormItem>
-      <FormItem error={passwordError} errorMessage="Your password should be at least 8 characters long.">
-        <Input name="password" placeholder="Password" />
-      </FormItem>
-      <FormItem error={saveError} errorMessage="Oops, something went wrong">
-        <Button type="submit">Sign up</Button>
-        <Button type="reset">reset</Button>
-      </FormItem>
+    <Form {schema} on:submit={signup}>
+      <FormInput name="email" placeholder="Email" />
+      <FormInput name="password" placeholder="Password" />
+      <Button type="submit">Login</Button>
     </Form>
   </div>
 </Wizard>

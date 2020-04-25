@@ -1,15 +1,17 @@
 <script>
   import * as yup from 'yup';
+  import { goto, stores } from '@sapper/app';
 
   import { post } from '../../utils/post';
 
-  import Button from '../common/Button.svelte';
-  import Form from '../common/Form.svelte';
-  import FormItem from '../common/FormItem.svelte';
-  import Input from '../common/Input.svelte';
-  import Wizard from '../common/Wizard.svelte';
+  import {
+    Button,
+    Form,
+    FormInput,
+    Wizard
+  } from '../common';
 
-  import FormInput from '../common/FormInput.svelte';
+  const { session } = stores();
 
   const schema = yup.object().shape({
     email: yup
@@ -21,23 +23,25 @@
       .required("We need a password to keep you secure.")
   });
 
-  async function handleNext({ detail }) {
+  async function login({ detail }) {
     try {
       const response = await post('login', detail);
       const jwt = await response.json();
 
-      // do something with the jwt here
-      console.log(jwt);
+      $session.jwt = jwt;
+      $session.user = true;
+      // proceed to app
+      goto('/app');
     } catch (error) {
-      saveError = true;
+      console.log(error);
     }
   }
 </script>
 
 
 <Wizard title="Welcome Back" description="Enter your email and password to login.">
-  <div class="signup">
-    <Form {schema} on:submit={handleNext}>
+  <div class="login">
+    <Form {schema} on:submit={login}>
       <FormInput name="email" placeholder="Email" />
       <FormInput name="password" placeholder="Password" />
       <Button type="submit">Login</Button>
@@ -46,7 +50,7 @@
 </Wizard>
 
 <style>
-  .signup :global(button) {
+  .login :global(button) {
     width: 100%;
   }
 </style>

@@ -1,5 +1,6 @@
 <script>
   import { getContext } from 'svelte';
+
   import Input from './Input.svelte';
   import FormItem from './FormItem.svelte';
 
@@ -11,7 +12,6 @@
   function onBlur(e) {
     setValue(name, e.target.value);
   }
-  console.log($errors, name);
 </script>
 
 <FormItem errors={$errors[name] == null ? [] : $errors[name]}>

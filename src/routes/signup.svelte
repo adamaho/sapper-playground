@@ -5,6 +5,7 @@
   import Signup from '../components/signup/Signup.svelte';
 
   let currentIndex = 0;
+  let key = '';
 
 </script>
 
@@ -13,11 +14,11 @@
 </svelte:head>
 
 {#if currentIndex === 0}
-  <Key bind:currentIndex />
+  <Key bind:currentIndex bind:key />
 {/if}
 
 {#if currentIndex === 1}
-  <Signup bind:currentIndex />
+  <Signup bind:currentIndex bind:key />
 {/if}
 
 <style>
