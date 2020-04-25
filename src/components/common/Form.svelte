@@ -13,8 +13,6 @@
   function deserializeForm(elements) {
     let values = {};
 
-    console.log(elements);
-
     [...elements].forEach(({name, type, value}) => {
       if (type !== 'submit' && type !== 'reset') {
         values[name] = value;
@@ -24,9 +22,7 @@
     return values;
   }
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-
+  async function validate(e) {
     const values = deserializeForm(e.target.elements);
     const validationErrors = {};
 
@@ -44,7 +40,32 @@
 
     $errors = validationErrors;
 
-    dispatch('submit', { values , errors });
+    return values;
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    const values = await validate(e);
+
+    // const values = deserializeForm(e.target.elements);
+    // const validationErrors = {};
+
+    // try {
+    //   await schema.validate(values, { abortEarly: false });
+    // } catch (error) {      
+    //   error.inner.forEach((e) => {
+    //     if (validationErrors[e.path] == null) {
+    //       validationErrors[e.path] = [...e.errors];
+    //     } else {
+    //       validationErrors[e.path] = [...validationErrors[e.path], ...e.errors];
+    //     }
+    //   });
+    // }
+
+    // $errors = validationErrors;
+
+    dispatch('submit', values);
   }
 </script>
 

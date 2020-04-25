@@ -1,17 +1,12 @@
 <script>
-  import { getContext } from 'svelte';
   import { fade, fly } from 'svelte/transition';
-
-  export let name;
-
-  const { errors } = getContext('form');
-
+  export let errors = [];
 </script>
 
 <div class="form-item">
   <slot></slot>
-  {#if $errors[name] !== undefined && $errors[name].length > 0}
-    <p in:fly="{{ y: -20, duration: 150 }}" out:fade={{ duration: 100 }} class="form-item-error-message">{$errors[name][0]}</p>
+  {#if errors.length > 0}
+    <p in:fly="{{ y: -20, duration: 150 }}" out:fade={{ duration: 100 }} class="form-item-error-message">{errors[0]}</p>
   {/if}
 </div>
 

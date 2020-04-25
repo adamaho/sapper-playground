@@ -5,9 +5,7 @@
   export let value = '';
 </script>
 
-<FormItem {name}>
-  <input bind:value {placeholder} {name} />
-</FormItem>
+<input bind:value on:blur {placeholder} {name} />
 
 <style>
   input {
