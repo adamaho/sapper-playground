@@ -5,70 +5,59 @@
   import { writable } from 'svelte/store';
 
   const errors = writable({});
+  const values = writable({});
+  const touchedFields = writable({});
+  const submitted = writable({});
 
-  setContext('form', { errors });
+  setContext('form', {
+    errors,
+    setValue
+  });
 
   const dispatch = createEventDispatcher();
 
-  function deserializeForm(elements) {
-    let values = {};
-
-    [...elements].forEach(({name, type, value}) => {
-      if (type !== 'submit' && type !== 'reset') {
-        values[name] = value;
-      }
-    });
-
-    return values;
-  }
-
-  async function validate(e) {
-    const values = deserializeForm(e.target.elements);
+  async function validate() {
     const validationErrors = {};
 
     try {
-      await schema.validate(values, { abortEarly: false });
-    } catch (error) {      
+      await schema.validate($values, { abortEarly: false });
+    } catch (error) {
       error.inner.forEach((e) => {
-        if (validationErrors[e.path] == null) {
-          validationErrors[e.path] = [...e.errors];
-        } else {
-          validationErrors[e.path] = [...validationErrors[e.path], ...e.errors];
+        if ($touchedFields[e.path] || $submitted) {
+          if (validationErrors[e.path] == null) {
+            validationErrors[e.path] = [...e.errors];
+          } else {
+            validationErrors[e.path] = [...validationErrors[e.path], ...e.errors];
+          }
         }
       });
     }
 
     $errors = validationErrors;
+  }
+  
+  async function setValue(name, value) {
+    $touchedFields[name] = true;
 
-    return values;
+    $values = {
+      ...$values,
+      [name]: value
+    }
+
+    await validate();
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    const values = await validate(e);
+    $submitted = true;
 
-    // const values = deserializeForm(e.target.elements);
-    // const validationErrors = {};
+    await validate();
 
-    // try {
-    //   await schema.validate(values, { abortEarly: false });
-    // } catch (error) {      
-    //   error.inner.forEach((e) => {
-    //     if (validationErrors[e.path] == null) {
-    //       validationErrors[e.path] = [...e.errors];
-    //     } else {
-    //       validationErrors[e.path] = [...validationErrors[e.path], ...e.errors];
-    //     }
-    //   });
-    // }
-
-    // $errors = validationErrors;
-
-    dispatch('submit', values);
+    dispatch('submit', $values);
   }
 </script>
 
 <form on:submit={handleSubmit}>
-  <slot></slot>
+  <slot />
 </form>
